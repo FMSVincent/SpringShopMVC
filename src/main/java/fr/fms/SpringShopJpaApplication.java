@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -21,9 +22,8 @@ import fr.fms.dao.ArticleRepository;
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
-import org.springframework.transaction.annotation.Transactional;
 
-
+@ComponentScan({"fr.fms", "web", "resources"})
 @SpringBootApplication
 public class SpringShopJpaApplication implements CommandLineRunner {
 	@Autowired
@@ -39,11 +39,10 @@ public class SpringShopJpaApplication implements CommandLineRunner {
 
 
 	@Override
-	@Transactional
 	public void run(String... args) throws Exception {
 //		generateDatas();
-		List<Article> articles = articleRepository.findAll();
-		articles.forEach(article -> System.out.println(article));
+//		List<Article> articles = articleRepository.findAll();
+//		articles.forEach(article -> System.out.println(article));
 	}
 
 	/**

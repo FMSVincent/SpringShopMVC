@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container">
+        <div>
+            <div class="p-3 mb-2 bg-primary text-white">
+                Liste des articles
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Id</th> <th>Description</th> <th>Prix</th>
+                    </tr>
+                    <tr th:each="a : ${listArticles}">
+                        <td th:text="${a.id}"></td>
+                        <td th:text="${a.description}"></td>
+                        <td th:text="${a.price}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
