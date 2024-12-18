@@ -14,9 +14,16 @@
     </div>
   </div>
   <ul class="nav nav-pills">
+    <li>
+      <a class="nav-link" th:href="@{/index}">Accueil</a>
+    </li>
+    <li>
+      <a class="nav-link" th:href="@{/article}">Article</a>
+    </li>
     <li th:each="page : ${page}" th:class="${currentPage == page} ? 'active' : ''">
       <a class="nav-link" th:href="@{/index(page=${page}, keyword=${keyword})}" th:text="'Page ' + (${page} + 1)"></a>
     </li>
+
   </ul>
 </nav>
 <section layout:fragment="content"></section>
