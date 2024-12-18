@@ -22,13 +22,16 @@ public class ArticleController {
 
 
     @GetMapping("/index")
-    public String index(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-        Page<Article> articles = articleRepository.findAll(PageRequest.of(page, 5));
+    public String index(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "keyword", defaultValue = "") String kw) {
+        Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
         model.addAttribute("listArticles", articles.getContent());
         model.addAttribute("page", IntStream.range(0, articles.getTotalPages()).boxed().collect(Collectors.toList()));
         model.addAttribute("currentPage", page);
+        model.addAttribute("keyword", kw);
         return "articles";
     }
+
 
 
 }

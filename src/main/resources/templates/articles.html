@@ -10,6 +10,13 @@
     <div class="p-3 mb-2 bg-primary text-white">
         Liste des articles
     </div>
+    <div>
+        <form th:action="@{/index}" method="get">
+            <label>keyword</label>
+            <input type="text" name="keyword" th:value="${keyword}">
+            <button type="submit" class="btn btn-primary"> Search </button>
+        </form>
+    </div>
     <div class="panel-body">
         <table class="table">
             <thead>
@@ -29,8 +36,8 @@
         </table>
     </div>
     <ul class="nav nav-pills">
-        <li th:each="page : ${page}" th:classappend="${currentPage == page} ? 'active' : ''">
-            <a class="nav-link" th:href="@{/index(page=${page})}" th:text="${page + 1}"></a>
+        <li th:each="page : ${page}" th:class="${currentPage == page} ? 'active' : ''">
+            <a class="nav-link" th:href="@{/index(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
         </li>
     </ul>
 </div>

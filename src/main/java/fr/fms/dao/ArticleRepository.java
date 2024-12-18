@@ -12,24 +12,27 @@ import org.springframework.data.repository.query.Param;
 import fr.fms.entities.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-	public List<Article> findByBrand(String brand);
-	public List<Article> findByBrandContains(String brand);
-	public List<Article> findByBrandAndPrice(String brand, double price);
-	public List<Article> findByBrandContainsAndPriceGreaterThan(String brand, double price);
-	
-	@Query("select A from Article A where A.brand like %:x% and A.price > :y")
-	public List<Article> searchArticles(@Param("x")String brand,@Param("y")double price);
-	
-	@Query("select A from Article A where A.id= :id")
-	public Article findOne(@Param("id")long id);
-	
-	@Transactional
-	@Modifying
-	@Query("update Article a set a.brand= :b, a.price= :p where a.id= :id")
-	public int update(@Param("b")String brand ,@Param("p")double price , @Param("id")long id);
-	
-	public List<Article> findByDescriptionAndBrand(String description, String brand);
-	//public Page<Article> findAll(Pageable pageable);
+
+	Page<Article> findByDescriptionContains(String description, Pageable pageable);
+
+//	public List<Article> findByBrand(String brand);
+//	public List<Article> findByBrandContains(String brand);
+//	public List<Article> findByBrandAndPrice(String brand, double price);
+//	public List<Article> findByBrandContainsAndPriceGreaterThan(String brand, double price);
+//
+//	@Query("select A from Article A where A.brand like %:x% and A.price > :y")
+//	public List<Article> searchArticles(@Param("x")String brand,@Param("y")double price);
+//
+//	@Query("select A from Article A where A.id= :id")
+//	public Article findOne(@Param("id")long id);
+//
+//	@Transactional
+//	@Modifying
+//	@Query("update Article a set a.brand= :b, a.price= :p where a.id= :id")
+//	public int update(@Param("b")String brand ,@Param("p")double price , @Param("id")long id);
+//
+//	public List<Article> findByDescriptionAndBrand(String description, String brand);
+//	//public Page<Article> findAll(Pageable pageable);
 
 
 }
