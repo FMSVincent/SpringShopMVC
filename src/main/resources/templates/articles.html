@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <title>Liste des articles</title>
 </head>
 <body>
-<div class="container">
-    <section layout:fragment="content">
-    <div class="p-3 mb-2 bg-primary text-white">
-        Liste des articles
-    </div>
-    <div>
-        <form th:action="@{/index}" method="get">
-            <label>keyword</label>
-            <input type="text" name="keyword" th:value="${keyword}">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-    </div>
-    <div class="panel-body">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Prix</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="a : ${listArticles}">
-                <td th:text="${a.id}"></td>
-                <td th:text="${a.description}"></td>
-                <td th:text="${a.price}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <ul class="nav nav-pills">
-        <li th:each="page : ${page}" th:class="${currentPage == page} ? 'active' : ''">
-            <a class="nav-link" th:href="@{/index(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
-        </li>
-    </ul>
+<section layout:fragment="content" >
+<div class="container border border-primary  rounded mt-4">
+        <div class="p-3 mb-2 bg-primary text-white w-100">
+            Liste des articles
+        </div>
+        <div>
+            <form th:action="@{/index}" method="get">
+                <label>keyword</label>
+                <input type="text" name="keyword" th:value="${keyword}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped w-100">
+                <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${listArticles}">
+                    <td th:text="${a.id}"></td>
+                    <td th:text="${a.description}"></td>
+                    <td th:text="${a.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="nav nav-pills">
+            <li th:each="page : ${page}" th:class="${currentPage == page} ? 'active' : ''">
+                <a class="nav-link" th:href="@{/index(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
+            </li>
+        </ul>
 </div>
+</section>
 </body>
 </html>
