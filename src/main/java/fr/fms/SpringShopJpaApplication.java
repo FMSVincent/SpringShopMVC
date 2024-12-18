@@ -39,7 +39,7 @@ public class SpringShopJpaApplication implements CommandLineRunner {
 
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 //		generateDatas();
 //		List<Article> articles = articleRepository.findAll();
 //		articles.forEach(article -> System.out.println(article));
