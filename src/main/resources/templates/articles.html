@@ -23,6 +23,7 @@
                 <thead class="thead-light">
                 <tr>
                     <th>Id</th>
+                    <th>Marque</th>
                     <th>Description</th>
                     <th>Prix</th>
                 </tr>
@@ -30,6 +31,7 @@
                 <tbody>
                 <tr th:each="a : ${listArticles}">
                     <td th:text="${a.id}"></td>
+                    <td th:text="${a.brand}"></td>
                     <td th:text="${a.description}"></td>
                     <td th:text="${a.price}"></td>
                     <td>
