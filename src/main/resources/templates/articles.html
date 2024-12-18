@@ -32,6 +32,10 @@
                     <td th:text="${a.id}"></td>
                     <td th:text="${a.description}"></td>
                     <td th:text="${a.price}"></td>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{/delete(id=${a.id}, page=${currentPage}, keyword=${keyword})}">Delete</a>
+
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -32,6 +32,12 @@ public class ArticleController {
         return "articles";
     }
 
-
+    @GetMapping("/delete")
+    public String delete(@RequestParam Long id,
+                         @RequestParam int page,
+                         @RequestParam String keyword) {
+        articleRepository.deleteById(id);
+        return "redirect:/index?page=" + page + "&keyword=" + keyword;
+    }
 
 }
