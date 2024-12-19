@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -49,8 +50,15 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public String article(Model model) {
-        model.addAttribute("article", new Article());
+    public String article(Model model, @RequestParam(value = "id", required = false) Long id) {
+        if (id != null) {
+            Optional<Article> article = articleRepository.findById(id);
+            model.addAttribute("article", article.get());
+        } else {
+            model.addAttribute("article", new Article());
+        }
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("listCategories", categories);
         return "article";
     }
 
@@ -71,6 +79,5 @@ public class ArticleController {
         model.addAttribute("categoryId", categoryId);
         return "articles";
     }
-
 
 }

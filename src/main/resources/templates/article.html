@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}">
+<html lang="en" layout:decorate="~{layout.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Saisir un article</title>
@@ -12,19 +12,31 @@
             Saisir un nouvelle article
         </div>
         <div>
-            <form th:action="@{/save}" method="post">
+            <form method="post" th:action="@{/save}">
+                <div class="form-group">
+                    <label class="control-label">Brand : </label>
+                    <input class="form-control" name="brand" th:value="${article.brand}" type="text">
+                    <span class="text-danger" th:errors="${article.brand}"></span>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label">Description : </label>
-                    <input class="form-control" type="text" name="description" th:value="${article.description}">
-                    <span th:errors="${article.description}" class="text-danger"></span>
+                    <input class="form-control" name="description" th:value="${article.description}" type="text">
+                    <span class="text-danger" th:errors="${article.description}"></span>
                 </div>
                 <div class="form-group mb-4">
                     <label class="control-label">Price : </label>
-                    <input class="form-control" type="text" name="price" th:value="${article.price}">
-                    <span th:errors="${article.price}" class="text-danger"></span>
+                    <input class="form-control" name="price" th:value="${article.price}" type="text">
+                    <span class="text-danger" th:errors="${article.price}"></span>
                 </div>
+                <select aria-label="Default select example" class="form-select mb-4" name="category.id">
+                    <option th:each="category : ${listCategories}"
+                            th:text="${category.name}"
+                            th:value="${category.id}"></option>
+                </select>
 
-                <button type="submit" class="btn btn-primary">Save</button>
+
+                <button class="btn btn-primary" type="submit">Save</button>
             </form>
         </div>
     </div>

@@ -7,6 +7,16 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <nav class="navbar w-50 ps-5">
+        <ul class="d-flex list-unstyled mb-0">
+            <li class="me-5" th:each="category : ${listCategories}">
+                <a class="btn"
+                   th:class="${category.id == categoryId} ? 'btn btn-primary' : 'btn btn-outline-primary'"
+                   th:href="@{/articlesByCategory(categoryId=${category.id})}"
+                   th:text="${category.name}"></a>
+            </li>
+        </ul>
+    </nav>
     <div class="container border border-primary  rounded mt-4">
         <div class="p-3 mb-2 bg-primary text-white w-100">
             Liste des articles
@@ -40,6 +50,10 @@
                         <a class="btn btn-danger"
                            th:href="@{/delete(id=${a.id}, page=${currentPage}, keyword=${keyword})}">Delete</a>
 
+                    </td>
+                    <td>
+                        <a class="btn primary"
+                           th:href="@{/article(id=${a.id})}">Edit</a>
                     </td>
                 </tr>
                 </tbody>
