@@ -64,8 +64,36 @@ public class ArticleController {
 
     @PostMapping("/save")
     public String save(Model model, @Valid Article article, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "article";
+        if (bindingResult.hasErrors()) {
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("listCategories", categories);
+            return "article";
+        }
         articleRepository.save(article);
+        return "redirect:/index";
+    }
+
+    @PostMapping("/update")
+    public String update(Model model, @Valid Article article, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("listCategories", categories);
+            return "article";
+        }
+        System.out.println(article + "     test");
+        Optional<Article> isArticle = articleRepository.findById(article.getId());
+
+
+        if (isArticle.isPresent()) {
+            Article updatedArticle = isArticle.get();
+            updatedArticle.setBrand(article.getBrand());
+            updatedArticle.setDescription(article.getDescription());
+            updatedArticle.setPrice(article.getPrice());
+            updatedArticle.setCategory(article.getCategory());
+            articleRepository.save(updatedArticle);
+        } else {
+            return "redirect:/index";
+        }
         return "redirect:/index";
     }
 
