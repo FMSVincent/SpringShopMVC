@@ -1,6 +1,5 @@
 package fr.fms.web;
 
-import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Article;
 import fr.fms.entities.Category;
 import fr.fms.exceptions.ArticleNotDeletedException;
@@ -36,8 +35,6 @@ public class ArticleController {
     @Autowired
     CategoryServiceImplIservice categoryService;
 
-    @Autowired
-    CategoryRepository categoryRepository;
 
     /// cart  ///////////////////////////////////////////////////////////
     @GetMapping("/cart")
@@ -51,12 +48,10 @@ public class ArticleController {
     @GetMapping("/saveToCart")
     public String saveArticleToCart(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         Optional<Article> getArticle = articleService.getOne(id);
-        System.out.println("get:    " + getArticle);
         if (getArticle.isPresent()) {
             Article article = getArticle.get();
             Map<Long, Article> articles = articleService.addToCart(article);
             List<Article> articlesList = new ArrayList<>(articles.values());
-            System.out.println("List   " + articlesList);
             redirectAttributes.addFlashAttribute("cartList", articlesList);
         }
         return "redirect:/cart";

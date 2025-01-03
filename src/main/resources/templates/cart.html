@@ -9,8 +9,7 @@
 <body>
 <section layout:fragment="content">
 
-
-    <div class="container border border-primary  rounded mt-4">
+    <div class="container border border-primary rounded mt-4">
         <div class="p-3 mb-2 bg-primary text-white w-100">
             Liste du panier
         </div>
@@ -33,20 +32,14 @@
                     <td th:text="${a.description}"></td>
                     <td th:text="${a.price}"></td>
                     <td th:text="${a.category.name}"></td>
-                    <!--                    <td sec:authorize="hasRole('ROLE_ADMIN')">-->
-                    <!--                        <a class="btn btn-danger"-->
-                    <!--                           th:href="@{/delete(id=${a.id}, page=${currentPage}, keyword=${keyword})}">Delete</a>-->
-
-                    <!--                    </td>-->
-                    <!--                    <td>-->
-                    <!--                        <a class="btn btn-primary"-->
-                    <!--                           th:href="@{/article(id=${a.id})}">Edit</a>-->
-                    <!--                    </td>-->
                 </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="text-center mt-4 pull-right">
+            <a class="nav-link" th:href="@{/customer}">Commander </a>
+        </div>
     </div>
 </section>
 </body>
