@@ -2,8 +2,8 @@ package fr.fms.service;
 
 import fr.fms.dao.ArticleRepository;
 import fr.fms.entities.Article;
-import fr.fms.errors.ArticleNotDeletedException;
-import fr.fms.errors.ArticleNotFoundException;
+import fr.fms.exceptions.ArticleNotDeletedException;
+import fr.fms.exceptions.ArticleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

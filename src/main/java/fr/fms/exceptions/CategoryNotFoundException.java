@@ -1,4 +1,4 @@
-package fr.fms.errors;
+package fr.fms.exceptions;
 
 public class CategoryNotFoundException extends RuntimeException {
 

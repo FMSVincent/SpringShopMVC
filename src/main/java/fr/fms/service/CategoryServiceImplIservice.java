@@ -2,7 +2,7 @@ package fr.fms.service;
 
 import fr.fms.dao.CategoryRepository;
 import fr.fms.entities.Category;
-import fr.fms.errors.CategoryNotFoundException;
+import fr.fms.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
