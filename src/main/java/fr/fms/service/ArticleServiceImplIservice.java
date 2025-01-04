@@ -1,9 +1,10 @@
 package fr.fms.service;
 
 import fr.fms.dao.ArticleRepository;
-import fr.fms.entities.Article;
+import fr.fms.dto.ArticleDto;
+import fr.fms.entities.ArticleEntity;
 import fr.fms.exceptions.ArticleNotDeletedException;
-import fr.fms.exceptions.ArticleNotFoundException;
+import fr.fms.mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,49 +16,49 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ArticleServiceImplIservice implements IService<Article> {
-    Map<Long, Article> cart = new HashMap<Long, Article>();
+public class ArticleServiceImplIservice implements IService<ArticleDto> {
+
+    Map<Long, ArticleDto> cart = new HashMap<Long, ArticleDto>();
+
+    @Autowired
+    ArticleMapper articleMapper;
 
     @Autowired
     ArticleRepository articleRepository;
 
-    /// cart ////////////////////////////
-
-    public Map<Long, Article> getCart() {
-        return cart;
-    }
-
-    public Map<Long, Article> addToCart(Article article) {
+    public Map<Long, ArticleDto> addToCart(ArticleDto article) {
         cart.put(article.getId(), article);
         return cart;
     }
 
 
+    public Map<Long, ArticleDto> getCart(){
+        return cart;
+    }
     /// cart ////////////////////////////
 
 
     @Override
-    public List<Article> getAll() {
-        return articleRepository.findAll();
+    public List<ArticleDto> getAll() {
+       List<ArticleEntity> articleEntity = articleRepository.findAll();
+        return articleEntity.stream().map(a-> articleMapper.entityToDto(a)).toList();
     }
 
     @Override
-    public Page<Article> getAll(String kw, int page) throws ArticleNotFoundException {
-        Page<Article> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
-        if (articles.isEmpty()) {
-            throw new ArticleNotFoundException("Aucun article à charger les articles !");
-        }
-        return articles;
+    public Page<ArticleDto> getAll(String kw, int page) {
+        Page<ArticleEntity> articles = articleRepository.findByDescriptionContains(kw, PageRequest.of(page, 5));
+        return articles.map(articleMapper::entityToDto);
+    }
+
+
+    @Override
+    public List<ArticleDto> findByAttribute(Long categoryId) {
+        return articleRepository.findByCategoryId(categoryId).stream().map(articleMapper::entityToDto).toList();
     }
 
     @Override
-    public List<Article> findByAttribute(Long categoryId) {
-        return articleRepository.findByCategoryId(categoryId);
-    }
-
-    @Override
-    public Optional<Article> getOne(Long id) {
-        return articleRepository.findById(id);
+    public Optional<ArticleDto> getOne(Long id) {
+        return articleRepository.findById(id).map(articleMapper::entityToDto);
     }
 
     @Override
@@ -70,8 +71,9 @@ public class ArticleServiceImplIservice implements IService<Article> {
     }
 
     @Override
-    public void createOne(Article article) {
-        articleRepository.save(article);
+    public void createOne(ArticleDto article) {
+        ArticleEntity articleEntity = articleMapper.dtoToEntity(article);
+        articleRepository.save(articleEntity);
     }
 
 }

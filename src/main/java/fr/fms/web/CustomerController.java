@@ -1,7 +1,8 @@
 package fr.fms.web;
 
-import fr.fms.entities.Article;
-import fr.fms.entities.Customer;
+import fr.fms.dto.ArticleDto;
+import fr.fms.entities.ArticleEntity;
+import fr.fms.entities.CustomerEntity;
 import fr.fms.service.ArticleServiceImplIservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +24,14 @@ public class CustomerController {
 
     @GetMapping("/customer")
     public String showCustomerForm(Model model) {
-        model.addAttribute("customer", new Customer());
+        model.addAttribute("customer", new CustomerEntity());
         return "customer";
     }
 
     @PostMapping("/saveCustomer")
-    public String submitCustomerInfo(RedirectAttributes redirectAttributes, Customer customer, BindingResult bindingResult, Model model) {
+    public String submitCustomerInfo(RedirectAttributes redirectAttributes, CustomerEntity customer, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            Customer customer1 = new Customer();
+            CustomerEntity customer1 = new CustomerEntity();
             model.addAttribute("customer", customer1);
             return "customer";
         }
@@ -40,8 +41,8 @@ public class CustomerController {
 
     @GetMapping("/order")
     public String showOrderForm(Model model) {
-        Map<Long, Article> cart = articleService.getCart();
-        List<Article> articles = new ArrayList<>(cart.values());
+        Map<Long, ArticleDto> cart = articleService.getCart();
+        List<ArticleDto> articles = new ArrayList<>(cart.values());
         model.addAttribute("cartList", articles);
         return "order";
     }

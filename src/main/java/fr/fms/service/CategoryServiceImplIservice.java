@@ -1,7 +1,8 @@
 package fr.fms.service;
 
 import fr.fms.dao.CategoryRepository;
-import fr.fms.entities.Category;
+import fr.fms.dto.ArticleDto;
+import fr.fms.entities.CategoryEntity;
 import fr.fms.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,32 +12,32 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImplIservice implements IService<Category> {
+public class CategoryServiceImplIservice implements IService<CategoryEntity> {
+
 
     @Autowired
     CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> getAll() throws CategoryNotFoundException {
-        List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty())
-            throw new CategoryNotFoundException("Aucune categorie à charger les categories");
+    public List<CategoryEntity> getAll() throws CategoryNotFoundException {
+        List<CategoryEntity> categories = categoryRepository.findAll();
+
         return categories;
     }
 
     @Override
-    public Page<Category> getAll(String kw, int page) {
+    public Page<CategoryEntity> getAll(String kw, int page) {
         return null;
     }
 
     @Override
-    public List<Category> findByAttribute(Long id) {
+    public List<CategoryEntity> findByAttribute(Long id) {
         return null;
     }
 
 
     @Override
-    public Optional<Category> getOne(Long id) {
+    public Optional<CategoryEntity> getOne(Long id) {
         return null;
     }
 
@@ -46,7 +47,7 @@ public class CategoryServiceImplIservice implements IService<Category> {
     }
 
     @Override
-    public void createOne(Category category) {
+    public void createOne(CategoryEntity category) {
     }
 
 }

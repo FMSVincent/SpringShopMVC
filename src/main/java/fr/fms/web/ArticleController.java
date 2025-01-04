@@ -1,12 +1,15 @@
 package fr.fms.web;
 
-import fr.fms.entities.Article;
-import fr.fms.entities.Category;
+import fr.fms.dto.ArticleDto;
+import fr.fms.entities.ArticleEntity;
+import fr.fms.entities.CategoryEntity;
 import fr.fms.exceptions.ArticleNotDeletedException;
 import fr.fms.exceptions.ArticleNotFoundException;
 import fr.fms.exceptions.CategoryNotFoundException;
 import fr.fms.service.ArticleServiceImplIservice;
 import fr.fms.service.CategoryServiceImplIservice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import java.util.stream.IntStream;
 @Controller
 public class ArticleController {
 
+    private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     @Autowired
     ArticleServiceImplIservice articleService;
 
@@ -39,19 +43,19 @@ public class ArticleController {
     /// cart  ///////////////////////////////////////////////////////////
     @GetMapping("/cart")
     public String cart(Model model) {
-        Map<Long, Article> cart = articleService.getCart();
-        List<Article> articles = new ArrayList<>(cart.values());
+        Map<Long, ArticleDto> cart = articleService.getCart();
+        List<ArticleDto> articles = new ArrayList<>(cart.values());
         model.addAttribute("cartList", articles);
         return "cart";
     }
 
     @GetMapping("/saveToCart")
     public String saveArticleToCart(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        Optional<Article> getArticle = articleService.getOne(id);
+        Optional<ArticleDto> getArticle = articleService.getOne(id);
         if (getArticle.isPresent()) {
-            Article article = getArticle.get();
-            Map<Long, Article> articles = articleService.addToCart(article);
-            List<Article> articlesList = new ArrayList<>(articles.values());
+            ArticleDto article = getArticle.get();
+            Map<Long, ArticleDto> articles = articleService.addToCart(article);
+            List<ArticleDto> articlesList = new ArrayList<>(articles.values());
             redirectAttributes.addFlashAttribute("cartList", articlesList);
         }
         return "redirect:/cart";
@@ -63,7 +67,7 @@ public class ArticleController {
     public String index(Model model, @RequestParam(name = "page", defaultValue = "0") int page,
                         @RequestParam(name = "keyword", defaultValue = "") String kw) {
         try {
-            Page<Article> articles = articleService.getAll(kw, page);
+            Page<ArticleDto> articles = articleService.getAll(kw, page);
 
             model.addAttribute("listArticles", articles.getContent());
             model.addAttribute("page", IntStream.range(0, articles.getTotalPages()).boxed().collect(Collectors.toList()));
@@ -71,9 +75,10 @@ public class ArticleController {
             model.addAttribute("keyword", kw);
         } catch (ArticleNotFoundException e) {
             model.addAttribute("articlesNotFound", e.getMessage());
+            log.error("not found");
         }
         try {
-            List<Category> categories = categoryService.getAll();
+            List<CategoryEntity> categories = categoryService.getAll();
             model.addAttribute("listCategories", categories);
 
         } catch (CategoryNotFoundException e) {
@@ -100,22 +105,22 @@ public class ArticleController {
     @GetMapping("/article")
     public String article(Model model, @RequestParam(value = "id", required = false) Long id) {
         if (id != null) {
-            Optional<Article> article = articleService.getOne(id);
+            Optional<ArticleDto> article = articleService.getOne(id);
             article.ifPresent(value -> model.addAttribute("article", value));
         } else {
-            model.addAttribute("article", new Article());
+            model.addAttribute("article", new ArticleEntity());
         }
 
-        List<Category> categories = categoryService.getAll();
+        List<CategoryEntity> categories = categoryService.getAll();
         model.addAttribute("listCategories", categories);
 
         return "article";
     }
 
     @PostMapping({"/save", "/save/{id}"})
-    public String save(Model model, @Valid Article article, BindingResult bindingResult, @PathVariable(required = false) Long id) {
+    public String save(Model model, @Valid ArticleDto article, BindingResult bindingResult, @PathVariable(required = false) Long id) {
         if (bindingResult.hasErrors()) {
-            List<Category> categories = categoryService.getAll();
+            List<CategoryEntity> categories = categoryService.getAll();
             model.addAttribute("listCategories", categories);
             return "article";
         }
@@ -133,8 +138,8 @@ public class ArticleController {
 
     @GetMapping("/articlesByCategory")
     public String getArticlesByCategory(@RequestParam Long categoryId, Model model) {
-        List<Article> articles = articleService.findByAttribute(categoryId);
-        List<Category> categories = categoryService.getAll();
+        List<ArticleDto> articles = articleService.findByAttribute(categoryId);
+        List<CategoryEntity> categories = categoryService.getAll();
         model.addAttribute("listCategories", categories);
         model.addAttribute("listArticles", articles);
         model.addAttribute("categoryId", categoryId);

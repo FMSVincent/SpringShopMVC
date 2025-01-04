@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ import javax.persistence.*;
 @ToString
 
 
-public class Category implements Serializable{
+public class CategoryEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +29,14 @@ public class Category implements Serializable{
 	private String description;
 
 	@OneToMany(mappedBy = "category")
-	private Collection<Article> articles;
+	private Collection<ArticleEntity> articles;
+
+	private LocalDateTime createdAt;
+
+	public void createDate(){
+		if (createdAt == null)
+			createdAt = LocalDateTime.now();
+	}
 
 	@Override
 	public String toString() {

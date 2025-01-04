@@ -1,20 +1,17 @@
 package fr.fms.dao;
 
 import java.util.List;
-import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import fr.fms.entities.Article;
+import fr.fms.entities.ArticleEntity;
 
-public interface ArticleRepository extends JpaRepository<Article, Long> {
+public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
-	Page<Article> findByDescriptionContains(String description, Pageable pageable);
-	List<Article> findByCategoryId(Long categoryId);
+	Page<ArticleEntity> findByDescriptionContains(String description, Pageable pageable);
+	List<ArticleEntity> findByCategoryId(Long categoryId);
 
 
 //	public List<Article> findByBrand(String brand);

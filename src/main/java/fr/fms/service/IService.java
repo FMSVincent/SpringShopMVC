@@ -1,5 +1,6 @@
 package fr.fms.service;
 
+import fr.fms.dto.ArticleDto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
