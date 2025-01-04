@@ -1,23 +1,16 @@
 package fr.fms.mapper;
 
-import fr.fms.dao.ArticleRepository;
-import fr.fms.dao.CategoryRepository;
 import fr.fms.dto.ArticleDto;
 import fr.fms.entities.ArticleEntity;
 import fr.fms.entities.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class ArticleMapper {
 
     @Autowired
-    ArticleRepository articleRepository;
-
-    @Autowired
-    CategoryRepository categoryRepository;
+    CategoryMapper categoryMapper;
 
     public ArticleDto articleEntityToDto(ArticleEntity articleEntity) {
 
@@ -35,23 +28,19 @@ public class ArticleMapper {
     }
 
     public ArticleEntity articleDtoToEntity(ArticleDto articleDto) {
-        Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findById(articleDto.getCategory().getId());
-        if (optionalCategoryEntity.isPresent()) {
-            ArticleEntity articleEntity = new ArticleEntity();
-            CategoryEntity categoryEntity = optionalCategoryEntity.get();
+        ArticleEntity articleEntity = new ArticleEntity();
+        CategoryEntity categoryEntity = categoryMapper.categoryDtoToEntity(articleDto.getCategory());
 
-            articleEntity.setId(articleDto.getId());
-            articleEntity.setBrand(articleDto.getBrand());
-            articleEntity.setDescription(articleDto.getDescription());
-            articleEntity.setPrice(articleDto.getPrice());
-            articleEntity.setCategory(categoryEntity);
+        articleEntity.setId(articleDto.getId());
+        articleEntity.setBrand(articleDto.getBrand());
+        articleEntity.setDescription(articleDto.getDescription());
+        articleEntity.setPrice(articleDto.getPrice());
+        articleEntity.setCategory(categoryEntity);
 
-            if (articleEntity.getCreatedAt() == null) {
-                articleEntity.createDate();
-            }
-            return articleEntity;
+        if (articleEntity.getCreatedAt() == null) {
+            articleEntity.createDate();
         }
-        return null;
+        return articleEntity;
     }
 
 }

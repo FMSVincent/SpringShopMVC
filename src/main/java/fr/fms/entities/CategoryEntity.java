@@ -1,6 +1,7 @@
 package fr.fms.entities;
 
 
+import fr.fms.dto.CategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.Collection;
 @ToString
 
 
-public class CategoryEntity implements Serializable {
+public class CategoryEntity extends CategoryDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

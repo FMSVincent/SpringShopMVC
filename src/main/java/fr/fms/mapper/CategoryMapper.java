@@ -18,7 +18,7 @@ public class CategoryMapper {
         return categoryDto;
     }
 
-    public CategoryEntity categoryDtoToEntity(CategoryDto categoryDto) {
+    public CategoryEntity categoryDtoToEntity(CategoryEntity categoryDto) {
         if (categoryDto == null)
             return null;
 
