@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin();
         http.authorizeRequests()
                 .antMatchers("/", "/index", "/save", "/articlesByCategory", "/article", "/delete").hasRole("ADMIN")
-                .antMatchers("/", "/index").hasRole("USER");
+                .antMatchers("/", "/index", "/articlesByCategory").hasRole("USER");
 
         http.exceptionHandling().accessDeniedPage("/403");
     }

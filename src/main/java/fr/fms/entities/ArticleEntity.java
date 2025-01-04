@@ -25,6 +25,7 @@ public class ArticleEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String brand;
 
     @NotNull
@@ -35,12 +36,13 @@ public class ArticleEntity implements Serializable {
     private double price;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void createDate(){
+    public void createDate() {
         if (createdAt == null)
             createdAt = LocalDateTime.now();
     }

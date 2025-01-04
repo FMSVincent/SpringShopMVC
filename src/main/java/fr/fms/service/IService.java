@@ -1,23 +1,29 @@
 package fr.fms.service;
 
 import fr.fms.dto.ArticleDto;
+import fr.fms.dto.CategoryDto;
+import fr.fms.exceptions.CategoryNotFoundException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public interface IService<Obj> {
+public interface IService {
 
-    List<Obj> findByAttribute(Long id);
+    Map<Long, ArticleDto> addToCart(ArticleDto article);
 
-    Page<Obj> getAll(String kw, int page);
+    Map<Long, ArticleDto> getCart();
 
-    List<Obj> getAll();
+    Page<ArticleDto> getArticles(String kw, int page);
 
-    Optional<Obj> getOne(Long id);
+    List<ArticleDto> findByCategory(Long categoryId);
 
-    void deleteOne(Long id);
+    Optional<ArticleDto> getArticle(Long id);
 
-    void createOne(Obj obj);
+    void deleteArticle(Long id);
 
+    void createArticle(ArticleDto article);
+
+    List<CategoryDto> getCategories() throws CategoryNotFoundException;
 }

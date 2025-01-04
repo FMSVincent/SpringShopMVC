@@ -1,13 +1,25 @@
 package fr.fms.mapper;
 
+import fr.fms.dao.ArticleRepository;
+import fr.fms.dao.CategoryRepository;
 import fr.fms.dto.ArticleDto;
 import fr.fms.entities.ArticleEntity;
+import fr.fms.entities.CategoryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class ArticleMapper {
 
-    public ArticleDto entityToDto(ArticleEntity articleEntity){
+    @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    public ArticleDto articleEntityToDto(ArticleEntity articleEntity) {
 
         if (articleEntity == null)
             return null;
@@ -22,18 +34,24 @@ public class ArticleMapper {
         return articleDto;
     }
 
-    public ArticleEntity dtoToEntity(ArticleDto articleDto){
+    public ArticleEntity articleDtoToEntity(ArticleDto articleDto) {
+        Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findById(articleDto.getCategory().getId());
+        if (optionalCategoryEntity.isPresent()) {
+            ArticleEntity articleEntity = new ArticleEntity();
+            CategoryEntity categoryEntity = optionalCategoryEntity.get();
 
-        if (articleDto == null)
-            return null;
+            articleEntity.setId(articleDto.getId());
+            articleEntity.setBrand(articleDto.getBrand());
+            articleEntity.setDescription(articleDto.getDescription());
+            articleEntity.setPrice(articleDto.getPrice());
+            articleEntity.setCategory(categoryEntity);
 
-        ArticleEntity articleEntity = new ArticleEntity();
-        articleEntity.setId(articleDto.getId());
-        articleEntity.setBrand(articleDto.getBrand());
-        articleEntity.setDescription(articleDto.getDescription());
-        articleEntity.setPrice(articleDto.getPrice());
-        articleEntity.setCategory(articleDto.getCategory());
-
-        return articleEntity;
+            if (articleEntity.getCreatedAt() == null) {
+                articleEntity.createDate();
+            }
+            return articleEntity;
+        }
+        return null;
     }
+
 }
