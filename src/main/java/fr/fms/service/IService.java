@@ -16,7 +16,7 @@ public interface IService {
     Map<Long, ArticleDto> getCart();
 
     Page<ArticleDto> getArticles(String kw, int page);
-
+    
     List<ArticleDto> findByCategory(Long categoryId);
 
     Optional<ArticleDto> getArticle(Long id);

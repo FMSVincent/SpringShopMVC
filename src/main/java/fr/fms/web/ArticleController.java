@@ -115,14 +115,21 @@ public class ArticleController {
      * @return la page principale
      */
     @GetMapping("/delete")
-    public String delete(RedirectAttributes redirectAttributes, @RequestParam Long id,
+    public String delete(RedirectAttributes redirectAttributes,
+                         Model model,
+                         @RequestParam Long id,
                          @RequestParam int page,
                          @RequestParam String keyword) {
         try {
+            if (id == null || id < 0) {
+                throw new IllegalArgumentException("id pas valide");
+            }
             articleService.deleteArticle(id);
             redirectAttributes.addFlashAttribute("successDeleted", "Article supprimé");
         } catch (ArticleNotDeletedException e) {
             redirectAttributes.addFlashAttribute("notDeleted", e.getMessage());
+            log.error(e.getMessage());
+        } catch (NumberFormatException e) {
             log.error(e.getMessage());
         }
 
