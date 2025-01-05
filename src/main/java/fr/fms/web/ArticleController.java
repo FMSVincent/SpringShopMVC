@@ -97,10 +97,10 @@ public class ArticleController {
             model.addAttribute("listCategories", categories);
         } catch (ArticleNotFoundException e) {
             model.addAttribute("articlesNotFound", e.getMessage());
-            log.error("Article not found");
+            log.error("Article not found: {}", e.getMessage());
         } catch (CategoryNotFoundException e) {
             model.addAttribute("categoriesNotFound", e.getMessage());
-            log.error("Category not found");
+            log.error("Category not found: {}", e.getMessage());
         }
         return "articles";
     }
