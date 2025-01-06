@@ -48,9 +48,6 @@ public class SpringShopJpaApplication implements CommandLineRunner {
         CategoryEntity printer = categoryRepository.save(new CategoryEntity(0, "Imprimante", " ", null, null));
         CategoryEntity camera = categoryRepository.save(new CategoryEntity(0, "Camera", " ", null, null));
         CategoryEntity tv = categoryRepository.save(new CategoryEntity(0, "TV", " ", null, null));
-        CategoryEntity telescope = categoryRepository.save(new CategoryEntity(0, "Telescope", " ", null, null));
-        CategoryEntity gps = categoryRepository.save(new CategoryEntity(0, "Gps", " ", null, null));
-        CategoryEntity enceinte = categoryRepository.save(new CategoryEntity(0, "Enceinte", " ", null, null));
 
         articleRepository.save(new ArticleEntity(0, "Samsung", "S8", 250, smartphone, null));
         articleRepository.save(new ArticleEntity(0, "Samsung", "S9", 300, smartphone, null));
