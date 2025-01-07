@@ -168,7 +168,6 @@ public class ArticleController {
      */
     @PostMapping({"/save", "/save/{id}"})
     public String save(Model model, @Valid ArticleDto article, BindingResult bindingResult, @PathVariable(required = false) Long id) {
-        System.out.println(":::::::::::::::" + article);
         if (bindingResult.hasErrors()) {
             List<CategoryDto> categories = articleService.getCategories();
             model.addAttribute("listCategories", categories);
