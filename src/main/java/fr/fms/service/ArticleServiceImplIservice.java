@@ -33,6 +33,10 @@ public class ArticleServiceImplIservice implements IService<Article> {
     }
 
 
+    public Double getTotalAmount(){
+        return cart.values().stream().mapToDouble(Article::getPrice).sum();
+    }
+
     /// cart ////////////////////////////
 
 
